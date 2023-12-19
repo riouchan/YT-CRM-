@@ -1,0 +1,35 @@
+{%  extends 'accounts/main.html' %}
+
+
+
+{% block content %}
+
+<h2>Are you sure to delete the order ?</h2>
+
+<div class="card card-body">
+	<table class="table table-sm">
+		<tr>
+			<th>Customer</th>
+			<th>Product</th>
+			<th>Date Ordered</th>
+			<th>Status</th>
+		</tr>
+
+		<tr>
+			<td>{{orders.customer}}</td>
+			<td>{{orders.product}}</td>
+			<td>{{orders.date_created|date:"Y-M-j , H:i"}}</td>
+			<td>{{orders.status}}</td>
+		</tr>
+
+	</table>
+</div>
+
+<form action="{% url 'deleteorder' orders.id %}" method="POST">
+	{% csrf_token %}
+	<a href="url 'home_dashboard"></a>
+	<button class="btn btn-outline-danger" type="submit" name="Confirm">Confirm</button>
+</form>
+	<button class="btn btn-outline-primary mt-3"><a href="/">Cancel</a></button></a>
+
+{%endblock%}
