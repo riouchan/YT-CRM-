@@ -62,11 +62,34 @@ def logoutUser(request):
     return redirect("login")
 
 
+def is_valid_queryparam(param):
+    return param != '' and param is not None
+
+
+def filter(request):
+    orders = Order.objects.all()
+    customer_qs = Customer.objects.all()
+    product = request.GET.get('product')
+    status = request.GET.get('status')
+    customer_name_query = request.GET.get('customer_name')
+    customer_email_query = request.GET.get('customer_email')
+
+    if is_valid_queryparam(customer_name_query):
+        customer_qs = customer_qs.filter(
+            customer_name__icountains=customer_name_query)
+    if is_valid_queryparam(customer_email_query):
+        customer_qs = customer_qs.filter(
+            customer_email__icountains=customer_email_query)
+
+    return customer_qs
+
+
 @login_required(login_url="login")
 # @admin_only
 def home(request):
     orders = Order.objects.all()
     customers = Customer.objects.all()
+
     total_customer = customers.count()
     total_orders = orders.count()
     delivered = orders.filter(status='Delivered').count()
@@ -77,6 +100,8 @@ def home(request):
     myCustomerFilter = CustomerFilter(request.GET, queryset=customers)
     customers = myCustomerFilter.qs
 
+    customer_qs = filter(request)
+
 
     context = {'orders':orders, 
                'customers':customers,
@@ -86,6 +111,7 @@ def home(request):
                'pending':pending,
                'myOrderFilter': myOrderFilter,
                'myCustomerFilter': myCustomerFilter,
+               'customer_qs': queryset,
                }
     
     return render(request, 'accounts/dashboard.html',context)

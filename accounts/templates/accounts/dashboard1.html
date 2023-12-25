@@ -1,5 +1,5 @@
-{% extends 'accounts/main.html' %} {% block content %} 
-{% include 'accounts/status.html' %} 
+{% extends 'accounts/main.html' %} {% block content %} {% include
+'accounts/status.html' %} {% load crispy_forms_tags %}
 
 <br />
 <br />
@@ -81,7 +81,7 @@
         {% for customer in customers %}
         <tr>
           <td>
-            <a href=" {%url 'customers' customer.id%} ">{{customer.name|capfirst }}</a>
+            <a href=" {%url 'customers' customer.id%} ">{{customer.name}}</a>
           </td>
           <td>
             <a href=" {%url 'customers' customer.id%} ">{{customer.email}}</a>

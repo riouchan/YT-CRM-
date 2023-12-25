@@ -1,4 +1,6 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import pre_save
 
 # Create your models here.
 
@@ -13,10 +15,14 @@ class Customer(models.Model):
     phone = models.CharField(max_length=255, null=True)
     email = models.CharField(max_length=255, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    
     def __str__(self):
         return self.name
     
+
+@receiver(pre_save, sender=Customer)
+def format_customer_fields(sender, instance, **kwargs):
+    instance.name = instance.name.capitalize()  # Capitalize the name
+
 class Product(models.Model):
     CATEGORY = (
         ('in door', 'in door'),

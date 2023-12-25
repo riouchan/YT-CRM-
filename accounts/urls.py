@@ -20,10 +20,17 @@ from . import views
 
 urlpatterns = [
     path('', views.home,name='home_dashboard'),
+    
+    path('user/', views.userPage,name='user'),
     path('products/', views.products,name='products'),
     path('customers/<str:pk_test>', views.customers,name='customers'),
+    
     path('create_order/<str:pk>', views.create_order,name='createorder'),
     path('update_order/<str:pk>', views.update_order,name='updateorder'),
     path('delete_order/<str:pk>', views.delete_order,name='deleteorder'),
+    
+    path('register/', views.registrationPage,name='register'),
+    path('login/', views.loginPage,name='login'),
+    path('logout/', views.logoutUser,name='logout'),
 ]
  
