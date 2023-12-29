@@ -4,14 +4,12 @@
 <br />
 <br />
 <div class="row">
-  <div class="col-md-5 d-flex">
+  <div class="col-md-4 d-flex">
     <div class="card card-body">
       <form method="get">
         {% comment %} {{ myCustomerFilterform }} #show all {% endcomment %}
         <label>Filter Customer by:</label>
         <br />
-        <br />
-        <div class="row g-3">
           <div class="col">
             <input
               class="form-control"
@@ -35,13 +33,10 @@
               class="form-control"
               type="text"
               name="phone"
-              placeholder="Phone Number"
+              placeholder="Phone"
               value="{{ request.GET.phone }}"
             />
           </div>
-          <hr />
-        </div>
-        <br />
         <br />
         <button class="btn btn-primary form-control" type="submit">
           Filter Customers
@@ -50,17 +45,37 @@
     </div>
   </div>
 
-  <div class="col-md-7 d-flex">
+  <div class="col-md-8 d-flex">
     <div class="card card-body">
       <form method="get">
         
         <label>Filter Orders by:</label>
-        <hr>
-        {{myOrderFilter.form}} 
         
-        <button class="btn btn-primary form-control" type="submit">
+            {% comment %}
+            <div class="col">
+              <select class="form-control" name="status">
+                  <option value="">Status</option>
+                  {% for status, _ in status_choices %}
+                      <option value="{{ status }}">{{ status }}</option>
+                  {% endfor %}
+              </select>
+            </div> 
+            <div class="col">
+              <select class="form-control" name="status">
+                  <option value="">Product</option>
+                  {% for product in  order_filter.note %}
+                      <option value="{{ product }}">{{ product }}</option>
+                  {% endfor %}
+              </select>
+            </div>  
+            {% endcomment %}
+          
+          {{ order_filter_form.as_p}}
+          </div>
+          <button class="btn btn-primary form-control" type="submit">
           Filter Orders
-        </button>
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -68,7 +83,7 @@
 <br />
 
 <div class="row">
-  <div class="col-md-5">
+  <div class="col-md-4">
     <div class="card card-body">
       <a class="btn btn-primary btn-sm btn-block" href="">Customer</a>
       <table class="table table-sm">
@@ -95,7 +110,7 @@
     </div>
   </div>
 
-  <div class="col-md-7">
+  <div class="col-md-8">
     <div class="card card-body">
       <span class="badge badge-primary fs-0.5 p-2">Last Order Status</span>
       <table class="table table-sm">

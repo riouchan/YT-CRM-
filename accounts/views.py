@@ -65,18 +65,20 @@ def logoutUser(request):
 @login_required(login_url="login")
 # @admin_only
 def home(request):
-    orders = Order.objects.all()
+    if 'reset' in request.GET:
+        return redirect('home_dashboard')
     customers = Customer.objects.all()
+    myCustomerFilter = CustomerFilter(request.GET, queryset=customers)
+    customers = myCustomerFilter.qs
     total_customer = customers.count()
+    
+    orders = Order.objects.all()
+    myOrderFilter = OrderFilter(request.GET, queryset=orders)
+    orders = myOrderFilter.qs
+    order_filter = OrderFilter(request.GET, queryset=Order.objects.all())
     total_orders = orders.count()
     delivered = orders.filter(status='Delivered').count()
     pending = orders.filter(status='Pending').count()
-    
-    myOrderFilter = OrderFilter(request.GET, queryset=orders)
-    orders = myOrderFilter.qs
-    myCustomerFilter = CustomerFilter(request.GET, queryset=customers)
-    customers = myCustomerFilter.qs
-
 
     context = {'orders':orders, 
                'customers':customers,
@@ -86,6 +88,7 @@ def home(request):
                'pending':pending,
                'myOrderFilter': myOrderFilter,
                'myCustomerFilter': myCustomerFilter,
+               'order_form': myOrderFilter.form,
                }
     
     return render(request, 'accounts/dashboard.html',context)
@@ -100,12 +103,14 @@ def userPage(request):
     delivered = orders.filter(status='Delivered').count()
     pending = orders.filter(status='Pending').count()
 
+
     context = {'orders': orders,
                'customers': customers,
                'total_customer': total_customer,
                'total_orders': total_orders,
                'delivered': delivered,
                'pending': pending,
+
                }
 
     return render(request, 'accounts/user.html', context)

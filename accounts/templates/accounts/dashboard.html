@@ -52,15 +52,77 @@
 
   <div class="col-md-7 d-flex">
     <div class="card card-body">
-      <form method="get">
+      <form method="get" >
         
         <label>Filter Orders by:</label>
-        <hr>
-        {{myOrderFilter.form}} 
+        <br> <br>
+        <div class="row g-3">
+          <div class="col">
+            {{order_form.customer}}
+          </div>
+          <div class="col">
+            {{order_form.product}}
+          </div>
+          <div class="col">
+            {{order_form.status}}
+          </div>
+        </div>
+        <br>
+        <div class="row g-3">
+          <div class="col">
+            {{order_form.start_date}}
+          </div>
+          <div class="col">
+            {{order_form.end_date}}
+          </div>
+          <div class="col">
+            <a href="?reset=true" class="btn btn-warning">Reset  Filter Input</a>
+          </div>
+        </div>
+          {% comment %} <div class="col">
+            {{order_form}}
+          </div> {% endcomment %}
         
+        {% comment %} <div class="col form-control">
+          {{order_form.status}}
+        </div> {% endcomment %}
+        {% comment %} {{order_form}}  {% endcomment %}
+        {% comment %} <select id="status" class="form-control" name="customer" placeholder="Chose Customer">
+          {% for name in order_form.customer %}
+          {{name}}
+          {% endfor %} 
+        </select> {% endcomment %}
+        
+          
+          {% comment %} {{order_form}} {% endcomment %}
+
+        {% comment %} <select id="status" class="form-control" name="customer" >
+          {% for status in order_form.status %}
+          {{status}}
+          {% endfor %} 
+        </select> {% endcomment %}
+        {% comment %} <div class="form-group col-md-4">
+          <label for="status">Status</label>
+          <select id="status" class="form-control" name="status">
+            <option selected>Choose...</option>
+            {% for stat in status %}
+            <option value="{{ stat }}">stat{{ stat }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col">
+            <select id="status" class="form-control" name="products">
+            <option selected>Choose...</option>
+            {% for stat in products %}
+            <option value="{{ request.GET.product }}">{{ request.GET.product }}</option>
+            {% endfor %}
+          </select>
+          </div> {% endcomment %}
+          <br><br>
         <button class="btn btn-primary form-control" type="submit">
           Filter Orders
         </button>
+        
       </form>
     </div>
   </div>
